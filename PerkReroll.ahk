@@ -24,14 +24,4 @@ refine(resolutionX, resolutionY, searchTerm) {
     } else {
         refine(resolutionX, resolutionY, searchTerm)
     }
-    ;;Send, !{PrintScreen}
-    ;;Sleep, 200
-    ;;Run, https://www.imagetotext.info/
-    ;;Send, !{Tab}
-    ;;Sleep, 200
-    ;;Send, ^v
-    ;;Sleep, 200
-    ;;Send, {PgUp}
-    ;;Sleep, 500
-    ;;MouseClick, left, 950, 750, 1
 }
