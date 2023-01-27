@@ -1,5 +1,8 @@
 ﻿+F1::
-refine(1920, 1080, "25% Damage")
+; Example Search Terms:
+; "+25% Damage ("
+; "+20% chance of Curio"
+refine(1920, 1080, "20% chance of")
 
 refine(resolutionX, resolutionY, searchTerm) {
     SetTitleMatchMode, 2
