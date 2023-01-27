@@ -1,10 +1,13 @@
-﻿refine(resolutionX, resolutionY, searchTerm) {
+﻿+F1::
+refine(1920, 1080, "25% Damage")
+
+refine(resolutionX, resolutionY, searchTerm) {
     buttonX := 0.833 * resolutionX
     buttonY := 0.833 * resolutionY
     topLeftBoxX := 0.705 * resolutionX
     topLeftBoxY := 0.69 * resolutionY
     bottomRightBoxX := 0.9 * resolutionX
-    bottomRightBoxY := 0.77 * resolutionY
+    bottomRightBoxY := 0.78 * resolutionY
     MouseClick, left, buttonX, buttonY, 1
     Sleep, 6000
     MouseMove, topLeftBoxX, topLeftBoxY, 4
@@ -29,6 +32,3 @@
     ;;Sleep, 500
     ;;MouseClick, left, 950, 750, 1
 }
-
-+F1::
-refine(1920, 1080, "25% Damage")
