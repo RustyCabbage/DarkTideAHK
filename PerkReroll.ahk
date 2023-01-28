@@ -2,7 +2,7 @@
 ; Example Search Terms:
 ; "+25% Damage ("
 ; "+20% chance of Curio"
-refine(1920, 1080, "20% chance of")
+refine(1920, 1080, "+25% Damage (Flak")
 
 refine(resolutionX, resolutionY, searchTerm) {
     SetTitleMatchMode, 2
@@ -11,9 +11,11 @@ refine(resolutionX, resolutionY, searchTerm) {
     buttonX := 0.833 * resolutionX
     buttonY := 0.833 * resolutionY
     topLeftBoxX := 0.705 * resolutionX
-    topLeftBoxY := 0.69 * resolutionY
+    ;;topLeftBoxY := 0.69 * resolutionY
+    topLeftBoxY := 0.6 * resolutionY
     bottomRightBoxX := 0.94 * resolutionX
-    bottomRightBoxY := 0.78 * resolutionY
+    ;;bottomRightBoxY := 0.78 * resolutionY
+    bottomRightBoxY := 0.8 * resolutionY
     MouseClick, left, buttonX, buttonY, 1
     Sleep, 6000
     MouseMove, topLeftBoxX, topLeftBoxY, 4
