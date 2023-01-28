@@ -1,6 +1,6 @@
 # DarkTideAHK
  
-## v1.0 "Technically viable product"
+## v1.1 "Serviceable"
 
 ## How To Use:
 1. Install AutoHotKey v1.1: https://www.autohotkey.com/
@@ -17,8 +17,8 @@
 
 ## To Do:
 - Adjust default proportions for different resolutions, UI scaling
+    - or automate it idk
 - Pictures in guide
 - Allow RegEx mode to deal with weird string issues
 - Allow custom Capture2Text keybind
-- Hotkey to break script
 - (Suggestions welcome)
