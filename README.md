@@ -1,6 +1,6 @@
 # DarkTideAHK
  
-## v1.1.1 "Serviceable, probably"
+## v1.2 "Drago-proof"
 
 ## How To Use:
 1. Install AutoHotKey v1.1: https://www.autohotkey.com/

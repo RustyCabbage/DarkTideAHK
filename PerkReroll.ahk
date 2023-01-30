@@ -1,21 +1,71 @@
+;;;;;;;;;;;;;;;;;;;;
+;; EDIT THIS PART ;;
+;;;;;;;;;;;;;;;;;;;;
+resolutionX := 1920
+resolutionY := 1080
+searchTerm := "+25% Damage (Maniac" ; CASE SENSITIVE
+;;;;;;;;;;;;;;;;;;;;
+
+/* Example Search Terms:
+    "+25% Damage ("
+    "+20% chance of Curio"
+*/ 
+
 ;; Shift F1: Turn on script
+; #IfWinExist ahk_exe Darktide.exe ; idk if i want this. probably better to throw an error
 +F1::
-;; Example Search Terms:
-    ;; "+25% Damage ("
-    ;; "+20% chance of Curio"
-refineQuick(1920, 1080,"+25% Damage (Maniac")  ; EDIT THIS STRING
+;; Check if Darktide and Capture2Text are on
+if (!isDarkTideOn() || !isCapture2TextOn()) {
+    return
+}
+refineQuick(resolutionX, resolutionY, searchTerm)
 Return
 
 ;; Shift F2: Toggle script on/off
+; #IfWinExist ahk_exe Darktide.exe ; idk if i want this. probably better to throw an error
 +F2::
+if (!isDarkTideOn() || !isCapture2TextOn()) {
+    return
+}
 Suspend
 Pause,, 1
 Return
 
 ;; Shift F3: Turn off script.
+#IfWinActive
 +F3::
 ExitApp
 Return
+
+isDarkTideOn() {
+    SetTitleMatchMode, 2
+    if (WinExist("Warhammer 40,000: Darktide")) {
+        return true
+    } else {
+        MsgBox, Darktide is not active. Enable it or press {Shift + F3} to turn off the hotkey.
+        return false
+    }
+}
+
+isCapture2TextOn() {
+    DetectHiddenWindows On
+    SetTitleMatchMode, 2
+    if (WinExist("Capture2Text")) {
+        DetectHiddenWindows, Off
+        return true
+    } else {
+        DetectHiddenWindows, Off
+        MsgBox, Capture2Text is not active. Enable it or press {Shift + F3} to turn off the hotkey.
+        return false
+    }
+}
+
+activateDarktide() {
+    ;; Activate Darktide
+    SetTitleMatchMode, 2
+    WinActivate, Warhammer 40,000: Darktide
+    Sleep, 100
+}
 
 refineQuick(resolutionX, resolutionY, searchTerm) {
     ;; Set button location
@@ -55,14 +105,6 @@ refineQuick(resolutionX, resolutionY, searchTerm) {
     }
 }
 
-activateDarktide() {
-    ;; Activate Darktide
-    SetTitleMatchMode, 2
-    darktide := "Warhammer 40,000: Darktide"
-    WinActivate, %darktide%
-    Sleep, 100
-}
-
 grabScreenShot(resolutionX, resolutionY) {
     ;; Set box dimensions
     topLeftBoxX := 0.7075 * resolutionX
@@ -82,9 +124,7 @@ grabScreenShot(resolutionX, resolutionY) {
     Return clip
 }
 
-;;
-;; Deprecated
-;;
+/* Deprecated
 refine(resolutionX, resolutionY, searchTerm) {
     ;; Set button location and box dimensions
     buttonX := 0.833 * resolutionX
@@ -117,3 +157,4 @@ refine(resolutionX, resolutionY, searchTerm) {
         refine(resolutionX, resolutionY, searchTerm)
     }
 }
+*/
