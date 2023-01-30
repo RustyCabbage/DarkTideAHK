@@ -5,9 +5,9 @@
 ## How To Use:
 1. Install AutoHotKey v1.1: https://www.autohotkey.com/
 2. Install Capture2Text: https://capture2text.sourceforge.net/ 
-3. Download PerkReroll.ahk from the repo
+3. Download **PerkReroll.ahk** from the repo
 4. Edit script with your game resolution, desired perk
-    4b. Be wary that depending on your resolution the picture-to-text might not correctly capture the string
+    4b. Be wary that depending on your resolution the picture-to-text might not correctly capture the string. Might need some trial and error on other resolutions.
 5. Turn on the script
 6. Go to DarkTide refine item screen
 7. Press {Shift + F1} to start the script
