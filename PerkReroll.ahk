@@ -3,9 +3,7 @@
 ;; Example Search Terms:
     ;; "+25% Damage ("
     ;; "+20% chance of Curio"
-refineQuick(1920, 1080,
-    "+25% Damage (Maniac" ; EDIT THIS STRING
-    )
+refineQuick(1920, 1080,"+25% Damage (Maniac")  ; EDIT THIS STRING
 Return
 
 ;; Shift F2: Toggle script on/off
