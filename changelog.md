@@ -1,3 +1,7 @@
+# v1.2.1 - "TFW ultra widescreen users exist"
+- Removed check for Capture2Text when pausing/unpausing the script. this might be a bad idea idk.
+- Added support for 3440 x 1440 and other wider resolutions (i think. needs more testing probably)
+
 # v1.2 - "Drago-proof"
 - Added error handling if Darktide or Capture2Text are not on
 - Now Drago-proof (adjusted so that all config is done at the top)

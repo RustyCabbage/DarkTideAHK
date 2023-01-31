@@ -24,9 +24,6 @@ Return
 ;; Shift F2: Toggle script on/off
 ; #IfWinExist ahk_exe Darktide.exe ; idk if i want this. probably better to throw an error
 +F2::
-if (!isDarkTideOn() || !isCapture2TextOn()) {
-    return
-}
 Suspend
 Pause,, 1
 Return
@@ -68,8 +65,14 @@ activateDarktide() {
 }
 
 refineQuick(resolutionX, resolutionY, searchTerm) {
+    aspectRatio := resolutionX / resolutionY
     ;; Set button location
-    buttonX := 0.833 * resolutionX
+    if (Abs(aspectRatio - 43/18) < 0.01 && resolutionX > 1920) {
+        ; 0.68586 * resolutionX for 43:18 aspect ratios
+        buttonX := 0.833 * 1920 + 0.5 * (resolutionX - 1920)
+    } else {
+        buttonX := 0.833 * resolutionX
+    }
     buttonY := 0.833 * resolutionY
 
     foundMatch := False
@@ -106,13 +109,22 @@ refineQuick(resolutionX, resolutionY, searchTerm) {
 }
 
 grabScreenShot(resolutionX, resolutionY) {
+    aspectRatio := resolutionX / resolutionY
     ;; Set box dimensions
-    topLeftBoxX := 0.7075 * resolutionX
-    ; topLeftBoxY := 0.69 * resolutionY
-    topLeftBoxY := 0.63 * resolutionY ; bit larger so it works when materials are still required
-    bottomRightBoxX := 0.94 * resolutionX
-    ; bottomRightBoxY := 0.78 * resolutionY
-    bottomRightBoxY := 0.8 * resolutionY ; bit larger so it works when materials are still required
+    if (Abs(aspectRatio - 43/18) < 0.01 && resolutionX > 1920) {
+        ; 0.61581 * resolutionX for 43:18 aspect ratios
+        topLeftBoxX := 0.7075 * 1920 + 0.5 * (resolutionX - 1920)
+        bottomRightBoxX := topLeftBoxX + 0.2325 * resolutionX
+        
+        topLeftBoxY := 0.63 * resolutionY ; bit larger so it works when materials are still required
+        bottomRightBoxY := topLeftBoxY + 0.17 * resolutionY ; bit larger so it works when materials are still required
+    } else {
+        topLeftBoxX := 0.7075 * resolutionX
+        bottomRightBoxX := topLeftBoxX + 0.2325 * resolutionX
+
+        topLeftBoxY := 0.63 * resolutionY ; bit larger so it works when materials are still required
+        bottomRightBoxY := topLeftBoxY + 0.17 * resolutionY ; bit larger so it works when materials are still required
+    }
 
     ;; Grab screenshot of perk, use Copy2Text to OCR, copy to clipboard
     activateDarktide()

@@ -1,6 +1,6 @@
 # DarkTideAHK
  
-## v1.2 "Drago-proof"
+## v1.2.1 "TFW ultra widescreen users exist"
 
 ## How To Use:
 1. Install AutoHotKey v1.1: https://www.autohotkey.com/
