@@ -3,7 +3,7 @@
 ;;;;;;;;;;;;;;;;;;;;
 resolutionX := 1920
 resolutionY := 1080
-searchTerm := "+25% Damage (Maniac" ; CASE SENSITIVE
+searchTerm := "+25% Damage (Flak" ; CASE SENSITIVE
 ;;;;;;;;;;;;;;;;;;;;
 
 /* Example Search Terms:
@@ -76,6 +76,8 @@ refineQuick(resolutionX, resolutionY, searchTerm) {
     buttonY := 0.833 * resolutionY
 
     foundMatch := False
+    rerollCount := 0
+    startTime := A_TickCount
 
     while (!foundMatch) {
         ;; Check initial perk
@@ -90,6 +92,7 @@ refineQuick(resolutionX, resolutionY, searchTerm) {
         ;; Click Refine and wait for the server to respond
         activateDarktide()
         MouseClick, left, buttonX, buttonY, 1
+        rerollCount++
         Sleep, 500
 
         ;; Check new perk
@@ -102,7 +105,8 @@ refineQuick(resolutionX, resolutionY, searchTerm) {
         }
         ;; If clipboard matches searchTerm, we are done, else try again
         if (InStr(clipFinal, searchTerm)) {
-            MsgBox, Match Found
+            timeDiffInSeconds := (A_TickCount - startTime)/1000
+            MsgBox, Match Found after %rerollCount% rolls (%timeDiffInSeconds% seconds)
             return
         }
     }
@@ -128,9 +132,9 @@ grabScreenShot(resolutionX, resolutionY) {
 
     ;; Grab screenshot of perk, use Copy2Text to OCR, copy to clipboard
     activateDarktide()
-    MouseMove, topLeftBoxX, topLeftBoxY, 4
+    MouseMove, topLeftBoxX, topLeftBoxY
     Send, #q
-    MouseClick, left, bottomRightBoxX, bottomRightBoxY, 1, 4
+    MouseClick, left, bottomRightBoxX, bottomRightBoxY, 1
     Sleep, 200
     clip := Clipboard
     Return clip

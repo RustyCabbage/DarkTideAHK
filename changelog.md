@@ -1,11 +1,17 @@
-# v1.2.1 - "TFW ultra widescreen users exist"
-- Removed check for Capture2Text when pausing/unpausing the script. this might be a bad idea idk.
-- Added support for 3440 x 1440 and other wider resolutions (i think. needs more testing probably)
+# v1.3 - "Harder, Better, Faster, Stronger"
+- Added a reroll counter
+- Added a reroll timer
+- Increased the speed from around 3s per reroll to 2.3s per reroll.
+- TODO: Fix Capture2Text not being found in system tray.
 
 # v1.2 - "Drago-proof"
 - Added error handling if Darktide or Capture2Text are not on
 - Now Drago-proof (adjusted so that all config is done at the top)
 - added changelog :)
+
+### v1.2.1 - "TFW ultra widescreen users exist"
+- Removed check for Capture2Text when pausing/unpausing the script. this might be a bad idea idk.
+- Added support for 3440 x 1440 and other wider resolutions (i think. needs more testing probably)
 
 # v1.1 - "Serviceable"
 - Added script toggle and turn off

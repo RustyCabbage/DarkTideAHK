@@ -1,6 +1,6 @@
 # DarkTideAHK
  
-## v1.2.1 "TFW ultra widescreen users exist"
+## v1.3 - "Harder, Better, Faster, Stronger"
 
 ## How To Use:
 1. Install AutoHotKey v1.1: https://www.autohotkey.com/
