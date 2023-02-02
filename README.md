@@ -1,6 +1,6 @@
 # DarkTideAHK
  
-## v1.3 - "Harder, Better, Faster, Stronger"
+### v1.3 - "Harder, Better, Faster, Stronger"
 - Added a reroll counter
 - Added a reroll timer
 - Increased the speed from around 3s per reroll to 2.3s per reroll.
