@@ -1,6 +1,10 @@
 # DarkTideAHK
  
 ## v1.3 - "Harder, Better, Faster, Stronger"
+- Added a reroll counter
+- Added a reroll timer
+- Increased the speed from around 3s per reroll to 2.3s per reroll.
+- TODO: Fix Capture2Text not being found in system tray.
 
 ## How To Use:
 1. Install AutoHotKey v1.1: https://www.autohotkey.com/
