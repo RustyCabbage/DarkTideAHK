@@ -3,7 +3,7 @@
 ;;;;;;;;;;;;;;;;;;;;
 resolutionX := 1920
 resolutionY := 1080
-searchTerm := "+25% Damage (Flak" ; CASE SENSITIVE
+searchTerm := "+25% Damage (Flak"
 ;;;;;;;;;;;;;;;;;;;;
 
 /* Example Search Terms:
@@ -45,7 +45,7 @@ isDarkTideOn() {
 }
 
 isCapture2TextOn() {
-    DetectHiddenWindows On
+    DetectHiddenWindows, On
     SetTitleMatchMode, 2
     if (WinExist("Capture2Text")) {
         DetectHiddenWindows, Off
@@ -57,23 +57,16 @@ isCapture2TextOn() {
     }
 }
 
-activateDarktide() {
-    ;; Activate Darktide
-    SetTitleMatchMode, 2
-    WinActivate, Warhammer 40,000: Darktide
-    Sleep, 100
-}
-
 refineQuick(resolutionX, resolutionY, searchTerm) {
     aspectRatio := resolutionX / resolutionY
     ;; Set button location
     if (Abs(aspectRatio - 43/18) < 0.01 && resolutionX > 1920) {
         ; 0.68586 * resolutionX for 43:18 aspect ratios
-        buttonX := 0.833 * 1920 + 0.5 * (resolutionX - 1920)
+        buttonX := 0.825 * 1920 + 0.5 * (resolutionX - 1920)
     } else {
-        buttonX := 0.833 * resolutionX
+        buttonX := 0.825 * resolutionX
     }
-    buttonY := 0.833 * resolutionY
+    buttonY := 0.825 * resolutionY
 
     foundMatch := False
     rerollCount := 0
@@ -84,10 +77,7 @@ refineQuick(resolutionX, resolutionY, searchTerm) {
         clipInit := grabScreenShot(resolutionX, resolutionY)
 
         ;; Don't reroll a perk that's already good
-        if (InStr(clipInit, searchTerm)) {
-            MsgBox, Match Found
-            return
-        }
+        foundMatch := checkForMatch(clipInit, searchTerm, rerollCount, startTime)
 
         ;; Click Refine and wait for the server to respond
         activateDarktide()
@@ -104,12 +94,24 @@ refineQuick(resolutionX, resolutionY, searchTerm) {
             clipFinal := grabScreenShot(resolutionX, resolutionY)
         }
         ;; If clipboard matches searchTerm, we are done, else try again
-        if (InStr(clipFinal, searchTerm)) {
-            timeDiffInSeconds := (A_TickCount - startTime)/1000
-            MsgBox, Match Found after %rerollCount% rolls (%timeDiffInSeconds% seconds)
-            return
-        }
+        foundMatch := checkForMatch(clipFinal, searchTerm, rerollCount, startTime)
     }
+}
+
+activateDarktide() {
+    ;; Activate Darktide
+    SetTitleMatchMode, 2
+    WinActivate, Warhammer 40,000: Darktide
+    Sleep, 100
+}
+
+checkForMatch(stringToCheck, searchTerm, rerollCount, startTime) {
+    if (InStr(stringToCheck, searchTerm)) {
+        timeDiffInSeconds := (A_TickCount - startTime)/1000
+        MsgBox, Match Found after %rerollCount% rolls (%timeDiffInSeconds% seconds)
+        Exit, true
+    }
+    return false
 }
 
 grabScreenShot(resolutionX, resolutionY) {
@@ -132,45 +134,10 @@ grabScreenShot(resolutionX, resolutionY) {
 
     ;; Grab screenshot of perk, use Copy2Text to OCR, copy to clipboard
     activateDarktide()
-    MouseMove, topLeftBoxX, topLeftBoxY
+    MouseMove, topLeftBoxX, topLeftBoxY, 3
     Send, #q
-    MouseClick, left, bottomRightBoxX, bottomRightBoxY, 1
-    Sleep, 200
+    MouseClick, left, bottomRightBoxX, bottomRightBoxY, 1, 3
+    Sleep, 250
     clip := Clipboard
     Return clip
 }
-
-/* Deprecated
-refine(resolutionX, resolutionY, searchTerm) {
-    ;; Set button location and box dimensions
-    buttonX := 0.833 * resolutionX
-    buttonY := 0.833 * resolutionY
-    topLeftBoxX := 0.7075 * resolutionX
-    ; topLeftBoxY := 0.69 * resolutionY
-    topLeftBoxY := 0.63 * resolutionY ; bit larger so it works when materials are still required
-    bottomRightBoxX := 0.94 * resolutionX
-    ; bottomRightBoxY := 0.78 * resolutionY
-    bottomRightBoxY := 0.8 * resolutionY ; bit larger so it works when materials are still required
-
-    ;; Click Refine and wait for the server to respond
-    activateDarktide()
-    MouseClick, left, buttonX, buttonY, 1
-    Sleep, 6000
-
-    ;; Grab screenshot of perk, use Copy2Text to OCR, copy to clipboard
-    activateDarktide()
-    MouseMove, topLeftBoxX, topLeftBoxY, 4
-    Send, #q
-    MouseClick, left, bottomRightBoxX, bottomRightBoxY, 1, 4
-    Sleep, 100
-    clip := Clipboard
-
-    ;; If clipboard matches searchTerm, we are done, else try again
-    If (InStr(clip, searchTerm)) {
-        MsgBox, Match Found
-        return
-    } else {
-        refine(resolutionX, resolutionY, searchTerm)
-    }
-}
-*/
