@@ -3,12 +3,13 @@
 ;;;;;;;;;;;;;;;;;;;;
 resolutionX := 1920
 resolutionY := 1080
-searchTerm := "+25% Damage (Flak"
+searchTerm := "+20% chance of Curio"
 ;;;;;;;;;;;;;;;;;;;;
 
 /* Example Search Terms:
     "+25% Damage ("
     "+20% chance of Curio"
+    "Critical Strike Chance"
 */ 
 
 ;; Shift F1: Turn on script
