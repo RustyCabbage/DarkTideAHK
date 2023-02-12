@@ -1,6 +1,6 @@
 # DarkTideAHK
  
-### **v1.3.2 "I've run of version names"
+### **v1.3.2 "I've run of version names"**
 - Added leaderboard
 - Match found message now mentions the string that was found
 - Attempt to fix WinActivate not working. Probably still finicky
