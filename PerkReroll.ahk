@@ -3,7 +3,7 @@
 ;;;;;;;;;;;;;;;;;;;;
 resolutionX := 1920
 resolutionY := 1080
-searchTerm := "+20% chance of Curio"
+searchTerm := "+25% Damage (Flak"
 ;;;;;;;;;;;;;;;;;;;;
 
 /* Example Search Terms:
@@ -48,6 +48,7 @@ isDarkTideOn() {
 isCapture2TextOn() {
     DetectHiddenWindows, On
     SetTitleMatchMode, 2
+    Sleep, 50
     if (WinExist("Capture2Text")) {
         DetectHiddenWindows, Off
         return true
@@ -102,14 +103,14 @@ refineQuick(resolutionX, resolutionY, searchTerm) {
 activateDarktide() {
     ;; Activate Darktide
     SetTitleMatchMode, 2
+    Sleep, 50
     WinActivate, Warhammer 40,000: Darktide
-    Sleep, 100
 }
 
 checkForMatch(stringToCheck, searchTerm, rerollCount, startTime) {
     if (InStr(stringToCheck, searchTerm)) {
         timeDiffInSeconds := (A_TickCount - startTime)/1000
-        MsgBox, Match Found after %rerollCount% rolls (%timeDiffInSeconds% seconds)
+        MsgBox, Match Found for "%searchTerm%" after %rerollCount% rolls (%timeDiffInSeconds% seconds)
         Exit, true
     }
     return false
@@ -135,10 +136,11 @@ grabScreenShot(resolutionX, resolutionY) {
 
     ;; Grab screenshot of perk, use Copy2Text to OCR, copy to clipboard
     activateDarktide()
+    Sleep, 50
     MouseMove, topLeftBoxX, topLeftBoxY, 3
     Send, #q
     MouseClick, left, bottomRightBoxX, bottomRightBoxY, 1, 3
-    Sleep, 250
+    Sleep, 200
     clip := Clipboard
     Return clip
 }

@@ -11,6 +11,11 @@
 - Fixed a rare case where reroll counter and timer would not be shown on match found (if you use a given set of code more than once, make it a function >:V)
 - Slowed down the speed of OCR capture since a match was skipped at least once. Will probably make this configurable eventually.
 
+### **v1.3.2 "I've run of version names"
+- Added leaderboard
+- Match found message now mentions the string that was found
+- Attempt to fix WinActivate not working. Probably still finicky
+
 # v1.2 - "Drago-proof"
 - Added error handling if Darktide or Capture2Text are not on
 - Now Drago-proof (adjusted so that all config is done at the top)
