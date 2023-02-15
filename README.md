@@ -1,11 +1,7 @@
 # DarkTideAHK
- 
-### **v1.3.1 "For Dearest Yvanna"**
-- Learned the Instr() is in fact, not case-sensitive. Whoops.
-- Fixed Capture2Text not being detected in system tray because I forgot a comma. Whoops. Aren't IDEs supposed to catch that?
-- Adjusted the button location slightly to support 16:10 aspect ratios (Sorry Yvanna!)
-- Fixed a rare case where reroll counter and timer would not be shown on match found (if you use a given set of code more than once, make it a function >:V)
-- Slowed down the speed of OCR capture since a match was skipped at least once. Will probably make this configurable eventually.
+
+# v1.4 - "Feature Creep"
+- Added logging: perk rerolling will create a PerkRerollLog.txt file for your perusal
 
 ## How To Use:
 1. Install AutoHotKey v1.1: https://www.autohotkey.com/

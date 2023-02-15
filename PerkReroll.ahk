@@ -19,6 +19,7 @@ searchTerm := "+25% Damage (Flak"
 if (!isDarkTideOn() || !isCapture2TextOn()) {
     return
 }
+createLogEntry("Initialize")
 refineQuick(resolutionX, resolutionY, searchTerm)
 Return
 
@@ -27,11 +28,13 @@ Return
 +F2::
 Suspend
 Pause,, 1
+createLogEntry("Toggle")
 Return
 
 ;; Shift F3: Turn off script.
 #IfWinActive
 +F3::
+createLogEntry("Exit")
 ExitApp
 Return
 
@@ -61,7 +64,7 @@ isCapture2TextOn() {
 
 refineQuick(resolutionX, resolutionY, searchTerm) {
     aspectRatio := resolutionX / resolutionY
-    ;; Set button location
+    ; Set button location
     if (Abs(aspectRatio - 43/18) < 0.01 && resolutionX > 1920) {
         ; 0.68586 * resolutionX for 43:18 aspect ratios
         buttonX := 0.825 * 1920 + 0.5 * (resolutionX - 1920)
@@ -96,12 +99,12 @@ refineQuick(resolutionX, resolutionY, searchTerm) {
             clipFinal := grabScreenShot(resolutionX, resolutionY)
         }
         ;; If clipboard matches searchTerm, we are done, else try again
+        createPerkRerollLogEntry(clipFinal, rerollCount)
         foundMatch := checkForMatch(clipFinal, searchTerm, rerollCount, startTime)
     }
 }
 
 activateDarktide() {
-    ;; Activate Darktide
     SetTitleMatchMode, 2
     Sleep, 50
     WinActivate, Warhammer 40,000: Darktide
@@ -110,6 +113,7 @@ activateDarktide() {
 checkForMatch(stringToCheck, searchTerm, rerollCount, startTime) {
     if (InStr(stringToCheck, searchTerm)) {
         timeDiffInSeconds := (A_TickCount - startTime)/1000
+        createLogEntry("FoundMatch")
         MsgBox, Match Found for "%searchTerm%" after %rerollCount% rolls (%timeDiffInSeconds% seconds)
         Exit, true
     }
@@ -118,7 +122,7 @@ checkForMatch(stringToCheck, searchTerm, rerollCount, startTime) {
 
 grabScreenShot(resolutionX, resolutionY) {
     aspectRatio := resolutionX / resolutionY
-    ;; Set box dimensions
+    ; Set box dimensions
     if (Abs(aspectRatio - 43/18) < 0.01 && resolutionX > 1920) {
         ; 0.61581 * resolutionX for 43:18 aspect ratios
         topLeftBoxX := 0.7075 * 1920 + 0.5 * (resolutionX - 1920)
@@ -134,7 +138,7 @@ grabScreenShot(resolutionX, resolutionY) {
         bottomRightBoxY := topLeftBoxY + 0.17 * resolutionY ; bit larger so it works when materials are still required
     }
 
-    ;; Grab screenshot of perk, use Copy2Text to OCR, copy to clipboard
+    ; Grab screenshot of perk, use Copy2Text to OCR, copy to clipboard
     activateDarktide()
     Sleep, 50
     MouseMove, topLeftBoxX, topLeftBoxY, 3
@@ -143,4 +147,35 @@ grabScreenShot(resolutionX, resolutionY) {
     Sleep, 200
     clip := Clipboard
     Return clip
+}
+
+createLogEntry(reason) {
+    FormatTime, logTime,, yyyy-MM-dd hh:mm:ss tt
+    logLineDivider = ----------------------------------------------------------------------------------------------------`n
+    switch (reason) {
+        case "Initialize":
+            logLine = %logTime% - Initializing Perk Reroll Script`n
+            FileAppend, %logLineDivider%%logLine%, PerkRerollLog.txt
+        case "Toggle":
+            logLine = %logTime% - Toggling Perk Reroll Script`n
+            FileAppend, %logLine%, PerkRerollLog.txt
+        case "Exit":
+            logLine = %logTime% - Exiting Perk Reroll Script`n
+            FileAppend, %logLine%%logLineDivider%, PerkRerollLog.txt
+        case "FoundMatch":
+            logLine = %logTime% - Match found`n
+            FileAppend, %logLine%%logLineDivider%, PerkRerollLog.txt
+    }
+    return
+}
+
+createPerkRerollLogEntry(stringToCheck, rerollCount) {
+    ; get current time
+    FormatTime, logTime,, yyyy-MM-dd hh:mm:ss tt
+    ; start from approximately the box and remove any new lines
+    logStr := StrReplace(SubStr(stringToCheck, 100), "`r", A_Space)
+    logStr := StrReplace(logStr, "`n", A_Space)
+    logLine = %logTime% - Reroll number %rerollCount%: %logStr%`n
+    FileAppend, %logLine%, PerkRerollLog.txt
+    return
 }

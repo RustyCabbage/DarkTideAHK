@@ -1,3 +1,6 @@
+# v1.4 - "Feature Creep"
+- Added logging: perk rerolling will create a PerkRerollLog.txt file for your perusal
+
 # v1.3 - "Harder, Better, Faster, Stronger"
 - Added a reroll counter
 - Added a reroll timer
