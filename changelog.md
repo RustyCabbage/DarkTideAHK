@@ -14,7 +14,7 @@
 - Fixed a rare case where reroll counter and timer would not be shown on match found (if you use a given set of code more than once, make it a function >:V)
 - Slowed down the speed of OCR capture since a match was skipped at least once. Will probably make this configurable eventually.
 
-### **v1.3.2 "I've run of version names"
+### **v1.3.2 "I've run of version names"**
 - Added leaderboard
 - Match found message now mentions the string that was found
 - Attempt to fix WinActivate not working. Probably still finicky
