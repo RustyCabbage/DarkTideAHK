@@ -10,8 +10,8 @@ perkBottomRightX := 550
 perkBottomRightY := 785
 
 ; TODO I fix this eventually or deprecate it's kinda inconvenient anyways
-resolutionX := 1920
-resolutionY := 1080
+; resolutionX := 1920
+; resolutionY := 1080
 ;;;;;;;;;;;;;;;;;;;;
 
 /* Example Search Terms:
