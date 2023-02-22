@@ -15,9 +15,9 @@
 7. Save and re-run the script (you can right click the "H" in system tray)
 8. **IMPORTANT: DO NOT HAVE THE PERK SELECTED**, the script will do this automatically
 9. Press {Shift + F1} to start the script
-    9b. {Shift + F2} can be used to toggle the script on/off
-    9c. {Shift + F3} will disable close the .ahk file entirely
-    9d. {Shift + F4} to find the current mouse position so you can fill in the arguments in the script
+    - {Shift + F2} can be used to toggle the script on/off
+    - {Shift + F3} will disable close the .ahk file entirely
+    - {Shift + F4} to find the current mouse position so you can fill in the arguments in the script
 
 - Note Capture2Text default OCR keybind is Win + Q so uh don't use those buttons for something else
 
