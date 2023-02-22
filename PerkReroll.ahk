@@ -51,12 +51,8 @@ Return
 +F4::
 MouseGetPos, xPos, yPos 
 ToolTip, The cursor is at X=%xPos% Y=%yPos%., %xPos%, %yPos%
-SetTimer, RemoveToolTip, -5000
+SetTimer, removeToolTip, -5000
 Return
-
-RemoveToolTip:
-ToolTip
-return
 
 isDarkTideOn() {
     SetTitleMatchMode, 2
@@ -151,6 +147,7 @@ refineManual(searchTerm, buttonX, buttonY, topLeftBoxX, topLeftBoxY, bottomRight
         rerollCount++
         timeDiffInSeconds := (A_TickCount - startTime)/1000
         ToolTip, Reroll number: %rerollCount% (%timeDiffInSeconds% seconds)
+        SetTimer, removeToolTip, -1000
         Sleep, 500
 
         ;; Check new perk
@@ -164,8 +161,8 @@ refineManual(searchTerm, buttonX, buttonY, topLeftBoxX, topLeftBoxY, bottomRight
         ;; If clipboard matches searchTerm, we are done, else try again
         createPerkRerollLogEntry(clipFinal, rerollCount)
         foundMatch := checkForMatch(clipFinal, searchTerm, rerollCount, startTime)
-        ToolTip
     }
+    return
 }
 
 grabScreenShotManual(topLeftBoxX, topLeftBoxY, bottomRightBoxX, bottomRightBoxY) {
@@ -178,6 +175,11 @@ grabScreenShotManual(topLeftBoxX, topLeftBoxY, bottomRightBoxX, bottomRightBoxY)
     Sleep, 200
     clip := Clipboard
     Return clip
+}
+
+removeToolTip() {
+    ToolTip
+    return
 }
 
 refineQuick(resolutionX, resolutionY, searchTerm) {
