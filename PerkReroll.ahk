@@ -122,8 +122,9 @@ createPerkRerollLogEntry(stringToCheck, rerollCount) {
     ; get current time
     FormatTime, logTime,, yyyy-MM-dd hh:mm:ss tt
     ; start from approximately the box and remove any new lines
-    logStr := StrReplace(SubStr(stringToCheck, 100), "`r", A_Space)
-    logStr := StrReplace(logStr, "`n", A_Space)
+    ; logStr := StrReplace(SubStr(stringToCheck, 100), "`r", A_Space)
+    ; logStr := StrReplace(logStr, "`n", A_Space)
+    logStr := stringToCheck
     logLine = %logTime% - Reroll number %rerollCount%: %logStr%`n
     FileAppend, %logLine%, PerkRerollLog.txt
     return
