@@ -1,3 +1,8 @@
+# v2.0rc1 - "Blessings of the Omnissiah"
+- Shift + F4 to find the current position of the mouse, important for the next bit
+- Now rather than positioning automatically based on resolution, the user can input the X and Y positions for more control
+- Added a tooltip to show current reroll progress
+
 # v1.4 - "Feature Creep"
 - Added logging: perk rerolling will create a PerkRerollLog.txt file for your perusal
 
@@ -7,14 +12,14 @@
 - Increased the speed from around 3s per reroll to 2.3s per reroll.
 - TODO: Fix Capture2Text not being found in system tray.
 
-### **v1.3.1 "For Dearest Yvanna"**
+### v1.3.1 "For Dearest Yvanna"
 - Learned the Instr() is in fact, not case-sensitive. Whoops.
 - Fixed Capture2Text not being detected in system tray because I forgot a comma. Whoops. Aren't IDEs supposed to catch that?
 - Adjusted the button location slightly to support 16:10 aspect ratios (Sorry Yvanna!)
 - Fixed a rare case where reroll counter and timer would not be shown on match found (if you use a given set of code more than once, make it a function >:V)
 - Slowed down the speed of OCR capture since a match was skipped at least once. Will probably make this configurable eventually.
 
-### **v1.3.2 "I've run of version names"**
+### v1.3.2 "I've run of version names"
 - Added leaderboard
 - Match found message now mentions the string that was found
 - Attempt to fix WinActivate not working. Probably still finicky
