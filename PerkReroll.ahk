@@ -1,7 +1,7 @@
 ;;;;;;;;;;;;;;;;;;;;
 ;; EDIT THIS PART ;;
 ;;;;;;;;;;;;;;;;;;;;
-searchTerm := "+25% Damage (F"
+searchTerm := "+20% Damage Resistance (G"
 buttonX := 350
 buttonY := 900
 perkTopLeftX := 170
@@ -163,7 +163,7 @@ refineManual(searchTerm, buttonX, buttonY, topLeftBoxX, topLeftBoxY, bottomRight
 
     while (!foundMatch) {
         ;; Check initial perk
-        MouseClick, left, boxCenterX, boxCenterY, 1
+        MouseClick, left, boxCenterX, boxCenterY, 1, 0
         clipInit := grabScreenShotManual(topLeftBoxX, topLeftBoxY, bottomRightBoxX, bottomRightBoxY)
 
         ;; Don't reroll a perk that's already good
@@ -196,13 +196,13 @@ refineManual(searchTerm, buttonX, buttonY, topLeftBoxX, topLeftBoxY, bottomRight
 grabScreenShotManual(topLeftBoxX, topLeftBoxY, bottomRightBoxX, bottomRightBoxY) {
     ; Grab screenshot of perk, use Copy2Text to OCR, copy to clipboard
     activateDarktide()
-    Sleep, 10
+    Sleep, 20
     MouseMove, topLeftBoxX, topLeftBoxY, 0
-    Sleep, 10
+    Sleep, 20
     Send, #q
     activateDarktide()
     MouseClick, left, bottomRightBoxX, bottomRightBoxY, 1, 1
-    Sleep, 10
+    Sleep, 20
     clip := Clipboard
     Return clip
 }
@@ -238,14 +238,14 @@ refineQuick(resolutionX, resolutionY, searchTerm) {
         activateDarktide()
         MouseClick, left, buttonX, buttonY, 1, 0
         rerollCount++
-        Sleep, 100
+        Sleep, 50
 
         ;; Check new perk
         clipFinal := grabScreenShot(resolutionX, resolutionY)
 
         ;; If they are still the same, wait until they are different
         while (clipInit = clipFinal) {
-            Sleep, 100
+            Sleep, 50
             clipFinal := grabScreenShot(resolutionX, resolutionY)
         }
         ;; If clipboard matches searchTerm, we are done, else try again
