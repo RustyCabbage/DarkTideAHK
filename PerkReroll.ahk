@@ -1,7 +1,7 @@
 ;;;;;;;;;;;;;;;;;;;;
 ;; EDIT THIS PART ;;
 ;;;;;;;;;;;;;;;;;;;;
-searchTerm := "+25% Damage (Flak"
+searchTerm := "+25% Damage (F"
 buttonX := 350
 buttonY := 900
 perkTopLeftX := 170
@@ -16,9 +16,28 @@ perkBottomRightY := 785
 
 /* Example Search Terms:
     "+25% Damage ("
+    "+20% Damage Resistance ("
     "+20% chance of Curio"
-    "Critical Strike Chance"
+    "Critical Strike Chance by 5%"
 */ 
+
+/* Quick Values by resolution
+1920x1080
+    buttonX := 350
+    buttonY := 900
+    perkTopLeftX := 170
+    perkTopLeftY := 760
+    perkBottomRightX := 550
+    perkBottomRightY := 785
+
+2560x1440
+    buttonX := 466
+    buttonY := 1200
+    perkTopLeftX := 226
+    perkTopLeftY := 1013
+    perkBottomRightX := 734
+    perkBottomRightY := 1047
+*/
 
 ;; Shift F1: Turn on script
 ; #IfWinExist ahk_exe Darktide.exe ; idk if i want this. probably better to throw an error
@@ -28,6 +47,7 @@ if (!isDarkTideOn() || !isCapture2TextOn()) {
     return
 }
 createLogEntry("Initialize")
+createManualParametersLogEntry(searchTerm, buttonX, buttonY, perkTopLeftX, perkTopLeftY, perkBottomRightX, perkBottomRightY)
 ; refineQuick(resolutionX, resolutionY, searchTerm)
 refineManual(searchTerm, buttonX, buttonY, perkTopLeftX, perkTopLeftY, perkBottomRightX, perkBottomRightY)
 Return
@@ -65,14 +85,10 @@ isDarkTideOn() {
 }
 
 isCapture2TextOn() {
-    DetectHiddenWindows, On
-    SetTitleMatchMode, 2
-    Sleep, 50
-    if (WinExist("Capture2Text")) {
-        DetectHiddenWindows, Off
+    Process, Exist, Capture2Text.exe
+    if (ErrorLevel) {
         return true
     } else {
-        DetectHiddenWindows, Off
         MsgBox, Capture2Text is not active. Enable it or press {Shift + F3} to turn off the hotkey.
         return false
     }
@@ -80,7 +96,6 @@ isCapture2TextOn() {
 
 activateDarktide() {
     SetTitleMatchMode, 2
-    Sleep, 50
     WinActivate, Warhammer 40,000: Darktide
 }
 
@@ -99,7 +114,7 @@ createLogEntry(reason) {
     logLineDivider = ----------------------------------------------------------------------------------------------------`n
     switch (reason) {
         case "Initialize":
-            logLine = %logTime% - Initializing Perk Reroll Script`n
+            logLine = %logTime% - Initializing Perk Reroll Script.`n
             FileAppend, %logLineDivider%%logLine%, PerkRerollLog.txt
         case "Toggle":
             logLine = %logTime% - Toggling Perk Reroll Script`n
@@ -114,13 +129,26 @@ createLogEntry(reason) {
     return
 }
 
+createManualParametersLogEntry(searchTerm, buttonX, buttonY, perkTopLeftX, perkTopLeftY, perkBottomRightX, perkBottomRightY) {
+    FormatTime, logTime,, yyyy-MM-dd hh:mm:ss tt
+    logLineDivider = --------------------------------------------------`n
+    logLine1 = %logTime% - Search Term: %searchTerm%`n
+    logLine2 = %logTime% - buttonX: %buttonX%`n
+    logLine3 = %logTime% - buttonY: %buttonY%`n
+    logLine4 = %logTime% - perkTopLeftX: %perkTopLeftX%`n
+    logLine5 = %logTime% - perkTopLeftY: %perkTopLeftY%`n
+    logLine6 = %logTime% - perkBottomRightX: %perkBottomRightX%`n
+    logLine7 = %logTime% - perkBottomRightY: %perkBottomRightY%`n
+    FileAppend, %logLineDivider%%logLine1%%logLine2%%logLine3%%logLine4%%logLine5%%logLine6%%logLine7%%logLineDivider%, PerkRerollLog.txt
+}
+
 createPerkRerollLogEntry(stringToCheck, rerollCount) {
     ; get current time
     FormatTime, logTime,, yyyy-MM-dd hh:mm:ss tt
     ; start from approximately the box and remove any new lines
-    ; logStr := StrReplace(SubStr(stringToCheck, 100), "`r", A_Space)
-    ; logStr := StrReplace(logStr, "`n", A_Space)
-    logStr := stringToCheck
+    logStr := StrReplace(stringToCheck, "`r", A_Space)
+    logStr := StrReplace(logStr, "`n", A_Space)
+    ; logStr := stringToCheck
     logLine = %logTime% - Reroll number %rerollCount%: %logStr%`n
     FileAppend, %logLine%, PerkRerollLog.txt
     return
@@ -148,14 +176,14 @@ refineManual(searchTerm, buttonX, buttonY, topLeftBoxX, topLeftBoxY, bottomRight
         timeDiffInSeconds := (A_TickCount - startTime)/1000
         ToolTip, Reroll number: %rerollCount% (%timeDiffInSeconds% seconds)
         SetTimer, removeToolTip, -1000
-        Sleep, 500
+        Sleep, 50
 
         ;; Check new perk
         clipFinal := grabScreenShotManual(topLeftBoxX, topLeftBoxY, bottomRightBoxX, bottomRightBoxY)
 
         ;; If they are still the same, wait until they are different
         while (clipInit = clipFinal) {
-            Sleep, 500
+            Sleep, 50
             clipFinal := grabScreenShotManual(topLeftBoxX, topLeftBoxY, bottomRightBoxX, bottomRightBoxY)
         }
         ;; If clipboard matches searchTerm, we are done, else try again
@@ -168,11 +196,13 @@ refineManual(searchTerm, buttonX, buttonY, topLeftBoxX, topLeftBoxY, bottomRight
 grabScreenShotManual(topLeftBoxX, topLeftBoxY, bottomRightBoxX, bottomRightBoxY) {
     ; Grab screenshot of perk, use Copy2Text to OCR, copy to clipboard
     activateDarktide()
-    Sleep, 50
-    MouseMove, topLeftBoxX, topLeftBoxY, 3
+    Sleep, 10
+    MouseMove, topLeftBoxX, topLeftBoxY, 0
+    Sleep, 10
     Send, #q
-    MouseClick, left, bottomRightBoxX, bottomRightBoxY, 1, 3
-    Sleep, 200
+    activateDarktide()
+    MouseClick, left, bottomRightBoxX, bottomRightBoxY, 1, 1
+    Sleep, 10
     clip := Clipboard
     Return clip
 }
@@ -206,16 +236,16 @@ refineQuick(resolutionX, resolutionY, searchTerm) {
 
         ;; Click Refine and wait for the server to respond
         activateDarktide()
-        MouseClick, left, buttonX, buttonY, 1
+        MouseClick, left, buttonX, buttonY, 1, 0
         rerollCount++
-        Sleep, 500
+        Sleep, 100
 
         ;; Check new perk
         clipFinal := grabScreenShot(resolutionX, resolutionY)
 
         ;; If they are still the same, wait until they are different
         while (clipInit = clipFinal) {
-            Sleep, 500
+            Sleep, 100
             clipFinal := grabScreenShot(resolutionX, resolutionY)
         }
         ;; If clipboard matches searchTerm, we are done, else try again
@@ -244,11 +274,13 @@ grabScreenShot(resolutionX, resolutionY) {
 
     ; Grab screenshot of perk, use Copy2Text to OCR, copy to clipboard
     activateDarktide()
-    Sleep, 50
-    MouseMove, topLeftBoxX, topLeftBoxY, 3
+    Sleep, 10
+    MouseMove, topLeftBoxX, topLeftBoxY, 0
+    Sleep, 10
     Send, #q
-    MouseClick, left, bottomRightBoxX, bottomRightBoxY, 1, 3
-    Sleep, 200
+    activateDarktide()
+    MouseClick, left, bottomRightBoxX, bottomRightBoxY, 1, 0
+    Sleep, 10
     clip := Clipboard
     Return clip
 }
